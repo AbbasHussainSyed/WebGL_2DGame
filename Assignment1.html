@@ -1,0 +1,67 @@
+﻿<!--
+FileName:       Assignment1.html
+Programmer:     Abbas Hussain Syed
+Date:           07/26/2024
+Purpose:        This file defines the HTML code necessary to run our WebGL 2 program.
+                I've made an attempt to separate the parts of the program using the 
+                Model-View-Controller design pattern. The model.js, view.js, and controller.js 
+                files define the code for those components respectively. 
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>2D Game Assignment</title>
+    <!-- Linking the JavaScript files for the MVC components -->
+    <script src="model.js"></script>
+    <script src="view.js"></script>
+    <script src="controller.js"></script>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden; /* Prevent scrolling */
+            background-color: black; /* Set background color to black */
+        }
+        #gameCanvas {
+            display: block;
+            background-color: black;
+            border: 2px solid white; /* White border for the canvas */
+            margin: auto;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+        }
+    </style>
+</head>
+<body onload="main()">
+    <!-- The canvas element where the game will be rendered -->
+    <canvas id="gameCanvas" width="800" height="700">
+        Your browser does not support HTML5 canvas.
+    </canvas>
+    <script>
+        /**
+         * The main function initializes the game by setting up the WebGL context, 
+         * creating the MVC components, and starting the game.
+         */
+        function main() {
+            const canvas = document.getElementById('gameCanvas');
+            const gl = canvas.getContext('webgl2');
+            if (!gl) {
+                console.error('WebGL 2 not supported');
+                return;
+            }
+
+            // Initialize the MVC components
+            const model = new GameModel(canvas.width, canvas.height);
+            const view = new GameView(gl);
+            const controller = new GameController(model, view);
+            
+            // Start the game
+            controller.startGame();
+        }
+    </script>
+</body>
+</html>
